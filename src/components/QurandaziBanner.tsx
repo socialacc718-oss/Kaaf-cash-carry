@@ -58,28 +58,28 @@ export const QurandaziBanner: React.FC<QurandaziBannerProps> = ({
   const earnedTickets = baseTickets * tierMultiplier;
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-emerald-950 via-teal-900 to-slate-900 text-white py-10 sm:py-16 px-3 sm:px-4 w-full max-w-full">
+    <section className="relative overflow-hidden bg-gradient-to-b from-emerald-950 via-teal-900 to-slate-900 text-white py-6 sm:py-16 px-2.5 sm:px-4 w-full max-w-full">
       {/* Background Subtle Ambient Glow */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative z-10 w-full">
+      <div className="max-w-7xl mx-auto relative z-10 w-full max-w-full">
         
         {/* Top Badges & Tagline */}
-        <div className="text-center mb-6 sm:mb-8 max-w-full overflow-hidden">
-          <div className="inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500/20 via-amber-400/30 to-amber-500/20 border border-amber-400/50 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-amber-300 font-bold text-[10px] sm:text-xs tracking-wide shadow-inner mb-3 max-w-full flex-wrap">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span>KAAF CASH & CARRY MEGA LUCKY DRAW 2026</span>
+        <div className="text-center mb-5 sm:mb-8 max-w-full overflow-hidden">
+          <div className="inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500/20 via-amber-400/30 to-amber-500/20 border border-amber-400/50 px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full text-amber-300 font-bold text-[9px] sm:text-xs tracking-wide shadow-inner mb-2.5 sm:mb-3 max-w-full text-center">
+            <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-400 shrink-0" />
+            <span className="truncate">KAAF CASH & CARRY MEGA LUCKY DRAW 2026</span>
           </div>
 
-          <h2 className="text-2xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white mb-2 leading-tight">
+          <h2 className="text-xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white mb-1.5 sm:mb-2 leading-tight">
             Shop For <span className="text-amber-400">Rs. 5,000</span> & Enter
           </h2>
-          <h3 className="text-xl sm:text-4xl font-extrabold text-emerald-300 mb-2 sm:mb-3">
+          <h3 className="text-lg sm:text-4xl font-extrabold text-emerald-300 mb-2 sm:mb-3">
             The Grand Prize Qurandazi!
           </h3>
 
-          <p className="max-w-2xl mx-auto text-slate-300 text-xs sm:text-base leading-relaxed px-2">
+          <p className="max-w-2xl mx-auto text-slate-300 text-xs sm:text-base leading-relaxed px-1">
             Every Rs. 5,000 purchase unlocks a computerized lucky draw token on your WhatsApp invoice slip.
             <span className="block text-amber-300 font-bold mt-1">
               "Everything at Wholesale Rates!" — Countless Prizes + FREE Home Delivery!
@@ -88,52 +88,52 @@ export const QurandaziBanner: React.FC<QurandaziBannerProps> = ({
         </div>
 
         {/* Live Draw Countdown & User Cart Qualification Tracker */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 my-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 my-6 sm:my-8 items-center w-full max-w-full">
           
           {/* Countdown Clock */}
-          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 text-center">
-            <div className="text-xs uppercase tracking-widest text-emerald-400 font-bold mb-2 flex items-center justify-center gap-1.5">
-              <Clock className="w-4 h-4" /> Live Lucky Draw Countdown
+          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-3 sm:p-4 text-center w-full">
+            <div className="text-[11px] sm:text-xs uppercase tracking-widest text-emerald-400 font-bold mb-2 flex items-center justify-center gap-1.5">
+              <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Live Lucky Draw Countdown
             </div>
-            <div className="grid grid-cols-4 gap-2">
-              <div className="bg-black/40 rounded-xl py-2 px-1 border border-white/10">
-                <span className="text-xl sm:text-2xl font-black text-amber-400">{timeLeft.days}</span>
-                <span className="block text-[10px] text-slate-400 uppercase">Days</span>
+            <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
+              <div className="bg-black/40 rounded-xl py-1.5 sm:py-2 px-1 border border-white/10">
+                <span className="text-lg sm:text-2xl font-black text-amber-400">{timeLeft.days}</span>
+                <span className="block text-[9px] sm:text-[10px] text-slate-400 uppercase">Days</span>
               </div>
-              <div className="bg-black/40 rounded-xl py-2 px-1 border border-white/10">
-                <span className="text-xl sm:text-2xl font-black text-white">{timeLeft.hours}</span>
-                <span className="block text-[10px] text-slate-400 uppercase">Hours</span>
+              <div className="bg-black/40 rounded-xl py-1.5 sm:py-2 px-1 border border-white/10">
+                <span className="text-lg sm:text-2xl font-black text-white">{timeLeft.hours}</span>
+                <span className="block text-[9px] sm:text-[10px] text-slate-400 uppercase">Hours</span>
               </div>
-              <div className="bg-black/40 rounded-xl py-2 px-1 border border-white/10">
-                <span className="text-xl sm:text-2xl font-black text-white">{timeLeft.minutes}</span>
-                <span className="block text-[10px] text-slate-400 uppercase">Mins</span>
+              <div className="bg-black/40 rounded-xl py-1.5 sm:py-2 px-1 border border-white/10">
+                <span className="text-lg sm:text-2xl font-black text-white">{timeLeft.minutes}</span>
+                <span className="block text-[9px] sm:text-[10px] text-slate-400 uppercase">Mins</span>
               </div>
-              <div className="bg-black/40 rounded-xl py-2 px-1 border border-white/10">
-                <span className="text-xl sm:text-2xl font-black text-emerald-400">{timeLeft.seconds}</span>
-                <span className="block text-[10px] text-slate-400 uppercase">Secs</span>
+              <div className="bg-black/40 rounded-xl py-1.5 sm:py-2 px-1 border border-white/10">
+                <span className="text-lg sm:text-2xl font-black text-emerald-400">{timeLeft.seconds}</span>
+                <span className="block text-[9px] sm:text-[10px] text-slate-400 uppercase">Secs</span>
               </div>
             </div>
           </div>
 
           {/* User's Cart Qualification Progress Bar */}
-          <div className="lg:col-span-2 bg-gradient-to-r from-emerald-900/60 to-teal-900/60 backdrop-blur-md border border-emerald-500/30 rounded-2xl p-5 shadow-lg">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-              <div className="flex items-center gap-2">
-                <Trophy className="w-5 h-5 text-amber-400" />
-                <span className="font-bold text-sm text-white">Your Lucky Draw Eligibility</span>
+          <div className="lg:col-span-2 bg-gradient-to-r from-emerald-900/60 to-teal-900/60 backdrop-blur-md border border-emerald-500/30 rounded-2xl p-3.5 sm:p-5 shadow-lg w-full">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-2 mb-2 min-w-0">
+              <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 shrink-0" />
+                <span className="font-bold text-xs sm:text-sm text-white">Your Lucky Draw Eligibility</span>
                 {userTier !== 'Bronze' && (
-                  <span className="text-[10px] bg-amber-400/20 text-amber-300 border border-amber-400/40 px-2 py-0.5 rounded-full font-bold">
-                    {userTier} Perk: {tierMultiplier}x Tickets
+                  <span className="text-[9px] sm:text-[10px] bg-amber-400/20 text-amber-300 border border-amber-400/40 px-2 py-0.5 rounded-full font-bold">
+                    {userTier}: {tierMultiplier}x Tickets
                   </span>
                 )}
               </div>
               <div className="text-xs">
                 {earnedTickets > 0 ? (
-                  <span className="bg-amber-400 text-slate-950 font-black px-2.5 py-1 rounded-full flex items-center gap-1 shadow">
-                    <PartyPopper className="w-3.5 h-3.5" /> {earnedTickets} Token(s) Qualified!
+                  <span className="bg-amber-400 text-slate-950 font-black px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full flex items-center gap-1 shadow text-[11px] sm:text-xs">
+                    <PartyPopper className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> {earnedTickets} Token(s) Qualified!
                   </span>
                 ) : (
-                  <span className="text-amber-200">
+                  <span className="text-amber-200 text-[11px] sm:text-xs">
                     Add <strong className="text-white font-bold">{formatPKR(remainingForTicket)}</strong> more to qualify
                   </span>
                 )}
@@ -141,20 +141,20 @@ export const QurandaziBanner: React.FC<QurandaziBannerProps> = ({
             </div>
 
             {/* Progress bar */}
-            <div className="w-full bg-black/40 rounded-full h-3.5 p-0.5 border border-white/10 overflow-hidden mb-2">
+            <div className="w-full bg-black/40 rounded-full h-3 sm:h-3.5 p-0.5 border border-white/10 overflow-hidden mb-2">
               <div 
                 className="bg-gradient-to-r from-amber-400 via-emerald-400 to-teal-300 h-full rounded-full transition-all duration-700 ease-out shadow-xs"
                 style={{ width: `${progress}%` }}
               />
             </div>
 
-            <div className="flex items-center justify-between text-xs text-slate-300">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between text-[11px] sm:text-xs text-slate-300 gap-1">
               <span>Cart Subtotal: <strong>{formatPKR(cartSubtotal)}</strong></span>
               <span>Target: <strong>Rs. 5,000 = 1 Lucky Draw Ticket</strong></span>
             </div>
 
             {earnedTickets > 0 && (
-              <div className="mt-3 pt-2 border-t border-white/10 flex items-center justify-between text-xs text-amber-300">
+              <div className="mt-2.5 pt-2 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between text-xs text-amber-300 gap-1">
                 <span>🎉 Congratulations! Your order includes computerized lucky draw entries!</span>
                 <button
                   onClick={onOpenCart}

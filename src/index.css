@@ -2,21 +2,25 @@
 
 html, body {
   overflow-x: hidden;
-  max-width: 100vw;
+  max-width: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
+  position: relative;
   -webkit-text-size-adjust: 100%;
+  box-sizing: border-box;
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
 #root {
   overflow-x: hidden;
   width: 100%;
-  max-width: 100vw;
+  max-width: 100%;
+  position: relative;
+  min-height: 100vh;
 }
 
 @layer utilities {

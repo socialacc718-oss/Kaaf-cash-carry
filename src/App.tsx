@@ -377,7 +377,7 @@ export default function App() {
         onNavigateToPamphlet={scrollToPamphlet}
       />
 
-      <main className="flex-1">
+      <main className="flex-1 w-full max-w-full overflow-x-hidden">
         
         {/* 2. Grand Qurandazi Lucky Draw Hero Showcase */}
         <QurandaziBanner

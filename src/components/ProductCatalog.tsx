@@ -182,16 +182,16 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
   }, [filteredProducts, sortBy]);
 
   return (
-    <section id="all-products" className="py-8 sm:py-12 px-3 sm:px-4 max-w-7xl mx-auto w-full overflow-hidden">
+    <section id="all-products" className="py-6 sm:py-12 px-2.5 sm:px-4 max-w-7xl mx-auto w-full max-w-full overflow-hidden">
       
       {/* Title & Top Toolbar */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 sm:gap-4 mb-5 sm:mb-6">
-        <div>
-          <div className="flex items-center gap-2 text-emerald-700 font-bold text-xs uppercase tracking-wider mb-1">
-            <ShoppingBag className="w-4 h-4" />
-            <span>Complete Grocery & Household Supermarket</span>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 sm:gap-4 mb-4 sm:mb-6 min-w-0">
+        <div className="min-w-0">
+          <div className="flex items-center gap-1.5 text-emerald-700 font-bold text-xs uppercase tracking-wider mb-1">
+            <ShoppingBag className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+            <span className="truncate">Complete Supermarket</span>
           </div>
-          <h3 className="text-xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
+          <h3 className="text-lg sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
             Browse All Products & Essentials
           </h3>
           <p className="text-slate-500 text-xs sm:text-sm mt-0.5">
@@ -200,14 +200,14 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         </div>
 
         {/* Action Buttons: Filter Drawer Trigger & Sort Dropdown */}
-        <div className="flex items-center gap-2 self-start md:self-auto text-xs flex-wrap">
+        <div className="flex items-center gap-2 self-start md:self-auto text-xs flex-wrap max-w-full">
           
           {/* Mobile / Tablet Filter Button */}
           <button
             onClick={() => setShowFilterDrawer(true)}
-            className="lg:hidden flex items-center gap-1.5 px-3 py-1.5 sm:py-2 bg-white border border-slate-200 rounded-xl font-bold text-slate-700 hover:bg-slate-50 shadow-xs"
+            className="lg:hidden flex items-center gap-1.5 px-2.5 py-1.5 sm:py-2 bg-white border border-slate-200 rounded-xl font-bold text-slate-700 hover:bg-slate-50 shadow-xs shrink-0"
           >
-            <Filter className="w-4 h-4 text-emerald-700" />
+            <Filter className="w-3.5 h-3.5 text-emerald-700" />
             <span>Filters</span>
             {activeFiltersCount > 0 && (
               <span className="w-4 h-4 rounded-full bg-emerald-700 text-white text-[10px] flex items-center justify-center font-bold">
@@ -217,13 +217,13 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           </button>
 
           {/* Sort Dropdown */}
-          <div className="flex items-center gap-1.5 sm:gap-2 bg-white border border-slate-200 rounded-xl px-2.5 sm:px-3 py-1.5 shadow-xs">
-            <ArrowUpDown className="w-3.5 h-3.5 text-slate-400" />
-            <span className="text-slate-500 font-medium hidden sm:inline">Sort:</span>
+          <div className="flex items-center gap-1.5 bg-white border border-slate-200 rounded-xl px-2 sm:px-3 py-1.5 shadow-xs max-w-full">
+            <ArrowUpDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+            <span className="text-slate-500 font-medium hidden sm:inline shrink-0">Sort:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="bg-transparent font-bold text-slate-800 focus:outline-none cursor-pointer text-xs"
+              className="bg-transparent font-bold text-slate-800 focus:outline-none cursor-pointer text-xs max-w-[130px] sm:max-w-none truncate"
             >
               <option value="featured">Featured (Recommended)</option>
               <option value="popularity">Popularity (Best Sellers)</option>
@@ -237,24 +237,26 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
       </div>
 
       {/* Category Pills Slider */}
-      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-5 sm:mb-6 w-full max-w-full">
-        {CATEGORIES.map((cat) => {
-          const isActive = selectedCategory === cat;
-          return (
-            <button
-              key={cat}
-              onClick={() => onSelectCategory(cat)}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 shadow-xs ${
-                isActive
-                  ? 'bg-emerald-800 text-white shadow-emerald-800/20'
-                  : 'bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200'
-              }`}
-            >
-              {cat === 'Pamphlet Specials' && <Sparkles className="w-3.5 h-3.5 text-amber-400" />}
-              <span>{cat}</span>
-            </button>
-          );
-        })}
+      <div className="w-full max-w-full overflow-x-auto no-scrollbar pb-2 mb-4 sm:mb-6">
+        <div className="flex items-center gap-1.5 sm:gap-2 w-max">
+          {CATEGORIES.map((cat) => {
+            const isActive = selectedCategory === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => onSelectCategory(cat)}
+                className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 shadow-xs shrink-0 ${
+                  isActive
+                    ? 'bg-emerald-800 text-white shadow-emerald-800/20'
+                    : 'bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200'
+                }`}
+              >
+                {cat === 'Pamphlet Specials' && <Sparkles className="w-3.5 h-3.5 text-amber-400" />}
+                <span>{cat}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Active Filter Chips Bar */}
@@ -486,7 +488,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-2.5 sm:gap-4 w-full">
+            <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-2 sm:gap-4 w-full max-w-full">
               {sortedProducts.map((product) => {
                 const quantity = getItemQuantity(product.id);
                 const savings = product.originalPrice - product.discountedPrice;
@@ -494,10 +496,10 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                 return (
                   <div
                     key={product.id}
-                    className="bg-white rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-lg transition-all duration-200 flex flex-col justify-between overflow-hidden group hover:border-emerald-600/40"
+                    className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-lg transition-all duration-200 flex flex-col justify-between overflow-hidden group hover:border-emerald-600/40 min-w-0 w-full"
                   >
                     {/* Image & Badges */}
-                    <div className="relative h-40 sm:h-48 bg-slate-50 overflow-hidden">
+                    <div className="relative h-36 sm:h-48 bg-slate-50 overflow-hidden w-full">
                       <img
                         src={product.image}
                         alt={product.name}
@@ -507,49 +509,49 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                       
                       {/* Pamphlet Deal tag */}
                       {product.isPamphletDeal && (
-                        <div className="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded-md shadow-xs">
+                        <div className="absolute top-1.5 left-1.5 bg-red-600 text-white text-[9px] sm:text-[10px] font-black px-1.5 py-0.5 rounded-md shadow-xs">
                           Pamphlet Deal
                         </div>
                       )}
 
                       {/* Savings tag */}
                       {savings > 0 && (
-                        <div className="absolute top-2 right-2 bg-amber-400 text-slate-950 text-[10px] font-bold px-1.5 py-0.5 rounded-md shadow-xs">
+                        <div className="absolute top-1.5 right-1.5 bg-amber-400 text-slate-950 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-md shadow-xs">
                           Save Rs.{savings}
                         </div>
                       )}
 
                       {/* Brand & Unit Pill */}
-                      <div className="absolute bottom-2 left-2 flex items-center gap-1">
-                        <span className="bg-black/75 backdrop-blur-xs text-white text-[10px] font-bold px-1.5 py-0.5 rounded">
+                      <div className="absolute bottom-1.5 left-1.5 flex items-center gap-1 max-w-[90%] flex-wrap">
+                        <span className="bg-black/75 backdrop-blur-xs text-white text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded truncate max-w-[70px] sm:max-w-none">
                           {product.brand}
                         </span>
-                        <span className="bg-emerald-950/80 backdrop-blur-xs text-emerald-200 text-[10px] font-medium px-1.5 py-0.5 rounded">
+                        <span className="bg-emerald-950/80 backdrop-blur-xs text-emerald-200 text-[9px] sm:text-[10px] font-medium px-1.5 py-0.5 rounded">
                           {product.unit}
                         </span>
                       </div>
                     </div>
 
                     {/* Details */}
-                    <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between">
-                      <div>
-                        <div className="text-[10px] text-slate-400 font-semibold uppercase truncate">
+                    <div className="p-2.5 sm:p-4 flex-1 flex flex-col justify-between min-w-0">
+                      <div className="min-w-0">
+                        <div className="text-[9px] sm:text-[10px] text-slate-400 font-semibold uppercase truncate">
                           {product.category}
                         </div>
                         <h4 className="font-extrabold text-slate-900 text-xs sm:text-sm line-clamp-1 group-hover:text-emerald-700 transition">
                           {product.name}
                         </h4>
-                        <div className="text-[11px] text-slate-400 line-clamp-1 mb-2 font-serif">
+                        <div className="text-[10px] sm:text-[11px] text-slate-400 line-clamp-1 mb-1.5 font-serif">
                           {product.nameUrdu}
                         </div>
 
                         {/* Price */}
-                        <div className="flex items-baseline gap-1.5 mb-2">
-                          <span className="text-base sm:text-lg font-black text-slate-900">
+                        <div className="flex flex-wrap items-baseline gap-1 sm:gap-1.5 mb-2">
+                          <span className="text-sm sm:text-lg font-black text-slate-900">
                             {formatPKR(product.discountedPrice)}
                           </span>
                           {savings > 0 && (
-                            <span className="text-xs text-slate-400 line-through">
+                            <span className="text-[10px] sm:text-xs text-slate-400 line-through">
                               Rs.{product.originalPrice}
                             </span>
                           )}
@@ -562,7 +564,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                           <button
                             onClick={() => onAddToCart(product)}
                             disabled={!product.inStock}
-                            className={`w-full py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition ${
+                            className={`w-full py-1.5 sm:py-2 px-2 sm:px-3 rounded-lg sm:rounded-xl font-bold text-xs flex items-center justify-center gap-1 sm:gap-1.5 transition ${
                               product.inStock
                                 ? 'bg-slate-900 hover:bg-emerald-700 text-white active:scale-95 shadow-xs'
                                 : 'bg-slate-200 text-slate-400 cursor-not-allowed'
@@ -572,19 +574,19 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                             <span>{product.inStock ? 'Add to Cart' : 'Sold Out'}</span>
                           </button>
                         ) : (
-                          <div className="flex items-center justify-between bg-emerald-50 border border-emerald-200 rounded-xl p-0.5">
+                          <div className="flex items-center justify-between bg-emerald-50 border border-emerald-200 rounded-lg sm:rounded-xl p-0.5">
                             <button
                               onClick={() => onUpdateQuantity(product.id, quantity - 1)}
-                              className="w-7 h-7 rounded-lg bg-white text-emerald-800 shadow-xs flex items-center justify-center hover:bg-emerald-100 font-bold active:scale-90 transition"
+                              className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-white text-emerald-800 shadow-xs flex items-center justify-center hover:bg-emerald-100 font-bold active:scale-90 transition shrink-0"
                             >
                               <Minus className="w-3.5 h-3.5" />
                             </button>
-                            <span className="font-black text-emerald-950 text-xs px-2">
+                            <span className="font-black text-emerald-950 text-xs px-1 truncate">
                               {quantity}
                             </span>
                             <button
                               onClick={() => onUpdateQuantity(product.id, quantity + 1)}
-                              className="w-7 h-7 rounded-lg bg-emerald-700 text-white shadow-xs flex items-center justify-center hover:bg-emerald-800 font-bold active:scale-90 transition"
+                              className="w-6 h-6 sm:w-7 sm:h-7 rounded-md bg-emerald-700 text-white shadow-xs flex items-center justify-center hover:bg-emerald-800 font-bold active:scale-90 transition shrink-0"
                             >
                               <Plus className="w-3.5 h-3.5" />
                             </button>
@@ -592,14 +594,12 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         )}
 
                         <div className="mt-1 text-center">
-                          <span className="text-[10px] text-slate-400">
+                          <span className="text-[9px] sm:text-[10px] text-slate-400">
                             {product.stockCount > 0 ? `Stock: ${product.stockCount}` : 'Out of Stock'}
                           </span>
                         </div>
                       </div>
-
                     </div>
-
                   </div>
                 );
               })}
