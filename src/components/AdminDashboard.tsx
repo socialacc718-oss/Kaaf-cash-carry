@@ -175,21 +175,25 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
   // Filtered orders
   const filteredOrders = orders.filter(o => {
+    if (!o) return false;
     const matchesStatus = orderStatusFilter === 'All' ? true : o.status === orderStatusFilter;
     const matchesBranch = orderBranchFilter === 'All' ? true : o.branch === orderBranchFilter;
-    const matchesSearch = !orderSearch || 
-      o.orderNumber.toLowerCase().includes(orderSearch.toLowerCase()) ||
-      o.customerName.toLowerCase().includes(orderSearch.toLowerCase()) ||
-      o.customerPhone.includes(orderSearch);
+    const search = (orderSearch || '').trim().toLowerCase();
+    const matchesSearch = !search || 
+      (o.orderNumber ? o.orderNumber.toLowerCase().includes(search) : false) ||
+      (o.customerName ? o.customerName.toLowerCase().includes(search) : false) ||
+      (o.customerPhone ? o.customerPhone.includes(search) : false);
     return matchesStatus && matchesBranch && matchesSearch;
   });
 
   // Filtered inventory
   const filteredInventory = products.filter(p => {
+    if (!p) return false;
     const matchesCat = invCategory === 'All Products' ? true : p.category === invCategory;
-    const matchesSearch = !invSearch ||
-      p.name.toLowerCase().includes(invSearch.toLowerCase()) ||
-      p.brand.toLowerCase().includes(invSearch.toLowerCase());
+    const search = (invSearch || '').trim().toLowerCase();
+    const matchesSearch = !search ||
+      (p.name ? p.name.toLowerCase().includes(search) : false) ||
+      (p.brand ? p.brand.toLowerCase().includes(search) : false);
     return matchesCat && matchesSearch;
   });
 

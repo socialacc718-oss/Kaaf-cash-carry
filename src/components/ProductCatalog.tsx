@@ -88,27 +88,36 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
 
   // Available brands in the catalog
   const availableBrands = useMemo(() => {
-    const bSet = new Set(products.map(p => p.brand).filter(Boolean));
+    const bSet = new Set(
+      products
+        .map(p => p?.brand)
+        .filter((b): b is string => Boolean(b && typeof b === 'string' && b.trim().length > 0))
+    );
     return Array.from(bSet).sort();
   }, [products]);
 
   // Filtered brands for the brand search input
   const filteredBrandList = useMemo(() => {
-    if (!brandSearchInput.trim()) return availableBrands;
-    return availableBrands.filter(b => b.toLowerCase().includes(brandSearchInput.toLowerCase()));
+    const search = (brandSearchInput || '').trim().toLowerCase();
+    if (!search) return availableBrands;
+    return availableBrands.filter(b => b && typeof b === 'string' && b.toLowerCase().includes(search));
   }, [availableBrands, brandSearchInput]);
 
   // Filtered & Sorted products
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
+      if (!product) return false;
+
       // 1. Search Query
-      if (searchQuery.trim()) {
-        const query = searchQuery.toLowerCase();
-        const matchesName = product.name.toLowerCase().includes(query);
-        const matchesBrand = product.brand.toLowerCase().includes(query);
-        const matchesCategory = product.category.toLowerCase().includes(query);
+      const rawSearch = (searchQuery || '').trim();
+      if (rawSearch) {
+        const query = rawSearch.toLowerCase();
+        const matchesName = product.name ? product.name.toLowerCase().includes(query) : false;
+        const matchesBrand = product.brand ? product.brand.toLowerCase().includes(query) : false;
+        const matchesCategory = product.category ? product.category.toLowerCase().includes(query) : false;
         const matchesDesc = product.description ? product.description.toLowerCase().includes(query) : false;
-        if (!matchesName && !matchesBrand && !matchesCategory && !matchesDesc) {
+        const matchesUrdu = product.nameUrdu ? product.nameUrdu.includes(rawSearch) : false;
+        if (!matchesName && !matchesBrand && !matchesCategory && !matchesDesc && !matchesUrdu) {
           return false;
         }
       }
@@ -124,7 +133,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
 
       // 3. Brands
       if (selectedBrands.length > 0) {
-        if (!selectedBrands.includes(product.brand)) {
+        if (!product.brand || !selectedBrands.includes(product.brand)) {
           return false;
         }
       }

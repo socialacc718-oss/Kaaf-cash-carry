@@ -38,24 +38,27 @@ export const OrderTrackingModal: React.FC<OrderTrackingModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const [searchTerm, setSearchTerm] = useState(initialOrderId);
+  const [searchTerm, setSearchTerm] = useState(initialOrderId || '');
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(() => {
     if (initialOrderId) {
-      return orders.find(o => o.orderNumber === initialOrderId || o.id === initialOrderId) || (orders[0] || null);
+      return orders.find(o => o && (o.orderNumber === initialOrderId || o.id === initialOrderId)) || (orders[0] || null);
     }
     return orders[0] || null;
   });
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!searchTerm.trim()) return;
+    const rawTerm = (searchTerm || '').trim();
+    if (!rawTerm) return;
 
-    const term = searchTerm.trim().toLowerCase();
-    const found = orders.find(o => 
-      o.orderNumber.toLowerCase().includes(term) ||
-      o.customerPhone.includes(term) ||
-      o.id.toLowerCase().includes(term)
-    );
+    const term = rawTerm.toLowerCase();
+    const found = orders.find(o => {
+      if (!o) return false;
+      const orderNumMatch = o.orderNumber ? o.orderNumber.toLowerCase().includes(term) : false;
+      const phoneMatch = o.customerPhone ? o.customerPhone.includes(term) : false;
+      const idMatch = o.id ? o.id.toLowerCase().includes(term) : false;
+      return orderNumMatch || phoneMatch || idMatch;
+    });
 
     if (found) {
       setSelectedOrder(found);

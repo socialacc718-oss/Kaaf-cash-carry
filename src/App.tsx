@@ -22,7 +22,21 @@ export default function App() {
   const [products, setProducts] = useState<Product[]>(() => {
     const saved = localStorage.getItem('kaaf_products');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed
+            .filter((p: any) => p && typeof p === 'object')
+            .map((p: any) => ({
+              ...p,
+              name: p.name || 'Unnamed Product',
+              nameUrdu: p.nameUrdu || p.name || '',
+              brand: p.brand || 'KAAF Fresh',
+              category: p.category || 'General Grocery',
+              description: p.description || ''
+            }));
+        }
+      } catch (e) {}
     }
     return INITIAL_PRODUCTS;
   });
@@ -31,7 +45,12 @@ export default function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const saved = localStorage.getItem('kaaf_cart');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          return parsed.filter(item => item && item.product && typeof item.product === 'object');
+        }
+      } catch (e) {}
     }
     return [];
   });
