@@ -33,35 +33,35 @@ export const PamphletDealsSection: React.FC<PamphletDealsSectionProps> = ({
   };
 
   return (
-    <section id="pamphlet-deals" className="py-12 px-4 max-w-7xl mx-auto">
+    <section id="pamphlet-deals" className="py-8 sm:py-12 px-3 sm:px-4 max-w-7xl mx-auto w-full overflow-hidden">
       
       {/* Section Header Banner */}
-      <div className="bg-gradient-to-r from-red-600 via-rose-600 to-red-700 rounded-3xl p-6 sm:p-8 text-white shadow-xl mb-8 relative overflow-hidden">
+      <div className="bg-gradient-to-r from-red-600 via-rose-600 to-red-700 rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-white shadow-xl mb-6 sm:mb-8 relative overflow-hidden">
         <div className="absolute right-0 top-0 w-80 h-80 bg-white/10 rounded-full blur-2xl pointer-events-none" />
 
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 bg-amber-400 text-slate-950 font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider mb-2 shadow">
+            <div className="inline-flex items-center gap-1.5 bg-amber-400 text-slate-950 font-black text-[10px] sm:text-xs px-2.5 py-1 rounded-full uppercase tracking-wider mb-2 shadow">
               <Sparkles className="w-3.5 h-3.5" /> Official Pamphlet Discounts
             </div>
-            <h3 className="text-2xl sm:text-4xl font-black tracking-tight">
+            <h3 className="text-xl sm:text-4xl font-black tracking-tight leading-tight">
               All Grocery Items Available at Wholesale Discount Rates!
             </h3>
             <p className="text-red-100 text-xs sm:text-sm mt-1 max-w-2xl">
-              All 30 promotional items from the official KAAF Cash & Carry flyer with original struck-through prices and genuine savings. Instant WhatsApp slip generated on checkout!
+              All 30 promotional items from the official KAAF flyer with original struck-through prices and genuine savings. Instant WhatsApp slip generated on checkout!
             </p>
           </div>
 
-          <div className="bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-center shrink-0">
-            <span className="text-xs uppercase text-amber-300 font-bold block">Promotional Deals</span>
-            <span className="text-3xl font-black text-white">{pamphletProducts.length} Items</span>
-            <span className="text-[11px] text-red-200 block">Lowest Rates Guaranteed</span>
+          <div className="bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl p-3 sm:p-4 text-center shrink-0 self-start md:self-auto">
+            <span className="text-[10px] sm:text-xs uppercase text-amber-300 font-bold block">Promotional Deals</span>
+            <span className="text-2xl sm:text-3xl font-black text-white">{pamphletProducts.length} Items</span>
+            <span className="text-[10px] sm:text-[11px] text-red-200 block">Lowest Rates Guaranteed</span>
           </div>
         </div>
       </div>
 
       {/* Grid of Pamphlet Products */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-6 w-full">
         {pamphletProducts.map((product) => {
           const quantity = getItemQuantity(product.id);
           const savings = product.originalPrice - product.discountedPrice;

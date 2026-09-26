@@ -23,8 +23,8 @@ export const Footer: React.FC<FooterProps> = ({
   onNavigateToQurandazi
 }) => {
   return (
-    <footer className="bg-slate-900 text-white pt-12 pb-8 border-t border-slate-800">
-      <div className="max-w-7xl mx-auto px-4">
+    <footer className="bg-slate-900 text-white pt-10 sm:pt-12 pb-8 border-t border-slate-800 w-full max-w-full overflow-hidden">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4">
         
         {/* Main 4-Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-slate-800">

@@ -16,7 +16,7 @@ export const PushNotificationToast: React.FC<PushNotificationToastProps> = ({
   if (!notification || !notification.active) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-40 max-w-sm w-full bg-slate-900/95 backdrop-blur-md text-white rounded-2xl p-4 shadow-2xl border border-amber-400/50 animate-bounce-subtle">
+    <div className="fixed bottom-3 right-3 left-3 sm:left-auto sm:right-4 sm:bottom-4 z-40 sm:max-w-sm bg-slate-900/95 backdrop-blur-md text-white rounded-2xl p-3.5 sm:p-4 shadow-2xl border border-amber-400/50">
       <div className="flex items-start gap-3">
         <div className="w-9 h-9 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center shrink-0 shadow-xs">
           <Zap className="w-5 h-5 fill-slate-950 text-slate-950" />

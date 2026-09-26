@@ -182,16 +182,16 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
   }, [filteredProducts, sortBy]);
 
   return (
-    <section id="all-products" className="py-12 px-4 max-w-7xl mx-auto">
+    <section id="all-products" className="py-8 sm:py-12 px-3 sm:px-4 max-w-7xl mx-auto w-full overflow-hidden">
       
       {/* Title & Top Toolbar */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 sm:gap-4 mb-5 sm:mb-6">
         <div>
           <div className="flex items-center gap-2 text-emerald-700 font-bold text-xs uppercase tracking-wider mb-1">
             <ShoppingBag className="w-4 h-4" />
             <span>Complete Grocery & Household Supermarket</span>
           </div>
-          <h3 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h3 className="text-xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
             Browse All Products & Essentials
           </h3>
           <p className="text-slate-500 text-xs sm:text-sm mt-0.5">
@@ -200,12 +200,12 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         </div>
 
         {/* Action Buttons: Filter Drawer Trigger & Sort Dropdown */}
-        <div className="flex items-center gap-2 self-start md:self-auto text-xs">
+        <div className="flex items-center gap-2 self-start md:self-auto text-xs flex-wrap">
           
           {/* Mobile / Tablet Filter Button */}
           <button
             onClick={() => setShowFilterDrawer(true)}
-            className="lg:hidden flex items-center gap-1.5 px-3 py-2 bg-white border border-slate-200 rounded-xl font-bold text-slate-700 hover:bg-slate-50 shadow-xs"
+            className="lg:hidden flex items-center gap-1.5 px-3 py-1.5 sm:py-2 bg-white border border-slate-200 rounded-xl font-bold text-slate-700 hover:bg-slate-50 shadow-xs"
           >
             <Filter className="w-4 h-4 text-emerald-700" />
             <span>Filters</span>
@@ -217,8 +217,8 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           </button>
 
           {/* Sort Dropdown */}
-          <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-xl px-3 py-1.5 shadow-xs">
-            <ArrowUpDown className="w-4 h-4 text-slate-400" />
+          <div className="flex items-center gap-1.5 sm:gap-2 bg-white border border-slate-200 rounded-xl px-2.5 sm:px-3 py-1.5 shadow-xs">
+            <ArrowUpDown className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-slate-500 font-medium hidden sm:inline">Sort:</span>
             <select
               value={sortBy}
@@ -237,7 +237,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
       </div>
 
       {/* Category Pills Slider */}
-      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-6">
+      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-5 sm:mb-6 w-full max-w-full">
         {CATEGORIES.map((cat) => {
           const isActive = selectedCategory === cat;
           return (
@@ -486,7 +486,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-2.5 sm:gap-4 w-full">
               {sortedProducts.map((product) => {
                 const quantity = getItemQuantity(product.id);
                 const savings = product.originalPrice - product.discountedPrice;

@@ -359,7 +359,7 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans selection:bg-emerald-200 selection:text-emerald-950">
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans selection:bg-emerald-200 selection:text-emerald-950 w-full max-w-full overflow-x-hidden">
       
       {/* 1. Header with branding, branch selector, search, loyalty tier badge, and cart preview */}
       <Header

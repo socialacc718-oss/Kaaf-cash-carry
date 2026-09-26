@@ -58,28 +58,28 @@ export const QurandaziBanner: React.FC<QurandaziBannerProps> = ({
   const earnedTickets = baseTickets * tierMultiplier;
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-emerald-950 via-teal-900 to-slate-900 text-white py-12 sm:py-16 px-4">
+    <section className="relative overflow-hidden bg-gradient-to-b from-emerald-950 via-teal-900 to-slate-900 text-white py-10 sm:py-16 px-3 sm:px-4 w-full max-w-full">
       {/* Background Subtle Ambient Glow */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10 w-full">
         
         {/* Top Badges & Tagline */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500/20 via-amber-400/30 to-amber-500/20 border border-amber-400/50 px-4 py-1.5 rounded-full text-amber-300 font-bold text-xs sm:text-sm tracking-wide shadow-inner mb-3">
-            <Sparkles className="w-4 h-4 text-amber-400 animate-spin" />
-            <span>KAAF CASH & CARRY MEGA GRAND LUCKY DRAW 2026</span>
+        <div className="text-center mb-6 sm:mb-8 max-w-full overflow-hidden">
+          <div className="inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-amber-500/20 via-amber-400/30 to-amber-500/20 border border-amber-400/50 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-amber-300 font-bold text-[10px] sm:text-xs tracking-wide shadow-inner mb-3 max-w-full flex-wrap">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            <span>KAAF CASH & CARRY MEGA LUCKY DRAW 2026</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white mb-2 leading-tight">
+          <h2 className="text-2xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white mb-2 leading-tight">
             Shop For <span className="text-amber-400">Rs. 5,000</span> & Enter
           </h2>
-          <h3 className="text-2xl sm:text-4xl font-extrabold text-emerald-300 mb-3">
+          <h3 className="text-xl sm:text-4xl font-extrabold text-emerald-300 mb-2 sm:mb-3">
             The Grand Prize Qurandazi!
           </h3>
 
-          <p className="max-w-2xl mx-auto text-slate-300 text-xs sm:text-base leading-relaxed">
+          <p className="max-w-2xl mx-auto text-slate-300 text-xs sm:text-base leading-relaxed px-2">
             Every Rs. 5,000 purchase unlocks a computerized lucky draw token on your WhatsApp invoice slip.
             <span className="block text-amber-300 font-bold mt-1">
               "Everything at Wholesale Rates!" — Countless Prizes + FREE Home Delivery!
