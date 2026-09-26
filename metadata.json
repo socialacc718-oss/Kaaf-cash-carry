@@ -1,0 +1,6 @@
+{
+  "name": "KAAF Cash & Carry",
+  "description": "Online shopping portal for KAAF Cash & Carry with pamphlet deals, Qurandazi lucky draw, WhatsApp order slips, inventory and order tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
