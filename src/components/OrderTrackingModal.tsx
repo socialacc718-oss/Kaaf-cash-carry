@@ -238,20 +238,24 @@ export const OrderTrackingModal: React.FC<OrderTrackingModalProps> = ({
               {/* Items Summary */}
               <div className="border border-slate-200 rounded-2xl p-4">
                 <h6 className="font-bold text-xs text-slate-700 mb-2">
-                  Order Items ({selectedOrder.items.length} items)
+                  Order Items ({selectedOrder.items?.length || 0} items)
                 </h6>
                 <div className="divide-y divide-slate-100 max-h-40 overflow-y-auto text-xs">
-                  {selectedOrder.items.map((item, i) => (
-                    <div key={i} className="py-2 flex justify-between items-center">
-                      <div>
-                        <span className="font-semibold text-slate-900">{item.product.name}</span>
-                        <span className="text-[10px] text-slate-400 block">{item.product.brand} • {item.product.unit} × {item.quantity}</span>
+                  {(selectedOrder.items || []).map((item, i) => {
+                    const price = item?.product?.discountedPrice || 0;
+                    const qty = item?.quantity || 1;
+                    return (
+                      <div key={i} className="py-2 flex justify-between items-center">
+                        <div>
+                          <span className="font-semibold text-slate-900">{item?.product?.name || 'Item'}</span>
+                          <span className="text-[10px] text-slate-400 block">{item?.product?.brand || 'KAAF'} • {item?.product?.unit || '1 Pack'} × {qty}</span>
+                        </div>
+                        <span className="font-bold text-slate-800">
+                          {formatPKR(price * qty)}
+                        </span>
                       </div>
-                      <span className="font-bold text-slate-800">
-                        {formatPKR(item.product.discountedPrice * item.quantity)}
-                      </span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
 

@@ -57,11 +57,11 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
   // Loyalty Points Redemption
   const [redeemPointsToggle, setRedeemPointsToggle] = useState(false);
-  const maxRedeemable = Math.min(loyaltyAccount.points, 500); // Up to 500 points per order
+  const maxRedeemable = Math.min(loyaltyAccount?.points || 0, 500); // Up to 500 points per order
   const [pointsToRedeem, setPointsToRedeem] = useState(maxRedeemable > 0 ? maxRedeemable : 0);
 
-  const subtotal = cartItems.reduce((acc, item) => acc + (item.product.discountedPrice * item.quantity), 0);
-  const originalSubtotal = cartItems.reduce((acc, item) => acc + (item.product.originalPrice * item.quantity), 0);
+  const subtotal = (cartItems || []).reduce((acc, item) => acc + ((item?.product?.discountedPrice || 0) * (item?.quantity || 1)), 0);
+  const originalSubtotal = (cartItems || []).reduce((acc, item) => acc + ((item?.product?.originalPrice || item?.product?.discountedPrice || 0) * (item?.quantity || 1)), 0);
   const totalSavings = originalSubtotal - subtotal;
   const deliveryFee = 0; // Free Home Delivery
 
@@ -69,11 +69,12 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   const grandTotal = Math.max(0, subtotal - loyaltyDiscount + deliveryFee);
 
   // Qurandazi tickets based on tier
-  const tierMultiplier = loyaltyAccount.tier === 'Platinum' ? 3 : loyaltyAccount.tier === 'Gold' ? 2 : 1;
+  const safeTier = loyaltyAccount?.tier || 'Silver';
+  const tierMultiplier = safeTier === 'Platinum' ? 3 : safeTier === 'Gold' ? 2 : 1;
   const ticketCount = calculateQurandaziTickets(subtotal, tierMultiplier);
 
   // Points earned on this transaction
-  const pointsEarned = calculatePointsEarned(grandTotal, loyaltyAccount.tier);
+  const pointsEarned = calculatePointsEarned(grandTotal, safeTier);
 
   const handleSubmitOrder = (e: React.FormEvent) => {
     e.preventDefault();

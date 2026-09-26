@@ -48,9 +48,9 @@ export const Header: React.FC<HeaderProps> = ({
   onNavigateToQurandazi,
   onNavigateToPamphlet
 }) => {
-  const totalItemsCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-  const cartSubtotal = cartItems.reduce((acc, item) => acc + (item.product.discountedPrice * item.quantity), 0);
-  const tierInfo = LOYALTY_TIERS[loyaltyAccount.tier] || LOYALTY_TIERS['Bronze'];
+  const totalItemsCount = (cartItems || []).reduce((acc, item) => acc + (item?.quantity || 0), 0);
+  const cartSubtotal = (cartItems || []).reduce((acc, item) => acc + ((item?.product?.discountedPrice || 0) * (item?.quantity || 1)), 0);
+  const tierInfo = LOYALTY_TIERS[loyaltyAccount?.tier || 'Bronze'] || LOYALTY_TIERS['Bronze'];
 
   return (
     <header className="sticky top-0 z-40 bg-white shadow-xs border-b border-slate-200">

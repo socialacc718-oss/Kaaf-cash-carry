@@ -51,8 +51,8 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
   const [brandSearchInput, setBrandSearchInput] = useState<string>('');
 
   const getItemQuantity = (productId: string): number => {
-    const item = cartItems.find(i => i.product.id === productId);
-    return item ? item.quantity : 0;
+    const item = (cartItems || []).find(i => i?.product?.id === productId);
+    return item ? (item.quantity || 0) : 0;
   };
 
   // Toggle brand selection

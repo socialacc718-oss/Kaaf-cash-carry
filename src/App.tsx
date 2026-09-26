@@ -20,47 +20,80 @@ import { getTierFromPoints } from './utils/helpers';
 export default function App() {
   // Products state (persisted or defaults)
   const [products, setProducts] = useState<Product[]>(() => {
-    const saved = localStorage.getItem('kaaf_products');
-    if (saved) {
-      try {
+    try {
+      const saved = localStorage.getItem('kaaf_products');
+      if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
           return parsed
-            .filter((p: any) => p && typeof p === 'object')
+            .filter((p: any) => p && typeof p === 'object' && p.id)
             .map((p: any) => ({
               ...p,
-              name: p.name || 'Unnamed Product',
-              nameUrdu: p.nameUrdu || p.name || '',
-              brand: p.brand || 'KAAF Fresh',
-              category: p.category || 'General Grocery',
-              description: p.description || ''
+              id: String(p.id),
+              name: String(p.name || 'Grocery Item'),
+              nameUrdu: String(p.nameUrdu || p.name || ''),
+              brand: String(p.brand || 'KAAF Fresh'),
+              category: String(p.category || 'General Grocery'),
+              description: String(p.description || ''),
+              unit: String(p.unit || '1 Pack'),
+              originalPrice: typeof p.originalPrice === 'number' ? p.originalPrice : (typeof p.discountedPrice === 'number' ? p.discountedPrice : 100),
+              discountedPrice: typeof p.discountedPrice === 'number' ? p.discountedPrice : 100,
+              stockCount: typeof p.stockCount === 'number' ? p.stockCount : 50,
+              inStock: p.inStock !== false,
+              image: p.image || INITIAL_PRODUCTS[0]?.image || ''
             }));
         }
-      } catch (e) {}
+      }
+    } catch (e) {
+      console.warn('Error reading products from storage:', e);
     }
     return INITIAL_PRODUCTS;
   });
 
   // Cart state
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
-    const saved = localStorage.getItem('kaaf_cart');
-    if (saved) {
-      try {
+    try {
+      const saved = localStorage.getItem('kaaf_cart');
+      if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) {
-          return parsed.filter(item => item && item.product && typeof item.product === 'object');
+          return parsed
+            .filter(item => item && item.product && typeof item.product === 'object' && item.product.id)
+            .map(item => ({
+              ...item,
+              quantity: typeof item.quantity === 'number' && item.quantity > 0 ? item.quantity : 1,
+              product: {
+                ...item.product,
+                name: String(item.product.name || 'Grocery Item'),
+                brand: String(item.product.brand || 'KAAF Fresh'),
+                category: String(item.product.category || 'General Grocery'),
+                discountedPrice: typeof item.product.discountedPrice === 'number' ? item.product.discountedPrice : (item.product.originalPrice || 0),
+                originalPrice: typeof item.product.originalPrice === 'number' ? item.product.originalPrice : (item.product.discountedPrice || 0),
+                unit: String(item.product.unit || '1 Pack')
+              }
+            }));
         }
-      } catch (e) {}
-    }
+      }
+    } catch (e) {}
     return [];
   });
 
   // Loyalty Account state (with points balance & tier)
   const [loyaltyAccount, setLoyaltyAccount] = useState<LoyaltyAccount>(() => {
-    const saved = localStorage.getItem('kaaf_loyalty');
-    if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
-    }
+    try {
+      const saved = localStorage.getItem('kaaf_loyalty');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === 'object') {
+          return {
+            points: typeof parsed.points === 'number' ? parsed.points : 250,
+            lifetimePoints: typeof parsed.lifetimePoints === 'number' ? parsed.lifetimePoints : 450,
+            tier: parsed.tier && ['Bronze', 'Silver', 'Gold', 'Platinum'].includes(parsed.tier) ? parsed.tier : 'Silver',
+            redeemedSavings: typeof parsed.redeemedSavings === 'number' ? parsed.redeemedSavings : 150
+          };
+        }
+      }
+    } catch (e) {}
     return {
       points: 250,
       lifetimePoints: 450,
@@ -71,10 +104,15 @@ export default function App() {
 
   // Orders state
   const [orders, setOrders] = useState<Order[]>(() => {
-    const saved = localStorage.getItem('kaaf_orders');
-    if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
-    }
+    try {
+      const saved = localStorage.getItem('kaaf_orders');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed.filter(o => o && typeof o === 'object' && (o.id || o.orderNumber));
+        }
+      }
+    } catch (e) {}
     return [
       {
         id: 'KF-8921',
@@ -136,35 +174,46 @@ export default function App() {
     active: true
   });
 
-  // Save changes to localStorage
+  // Save changes to localStorage safely
   useEffect(() => {
-    localStorage.setItem('kaaf_products', JSON.stringify(products));
+    try {
+      localStorage.setItem('kaaf_products', JSON.stringify(products));
+    } catch (e) {}
   }, [products]);
 
   useEffect(() => {
-    localStorage.setItem('kaaf_cart', JSON.stringify(cartItems));
+    try {
+      localStorage.setItem('kaaf_cart', JSON.stringify(cartItems));
+    } catch (e) {}
   }, [cartItems]);
 
   useEffect(() => {
-    localStorage.setItem('kaaf_loyalty', JSON.stringify(loyaltyAccount));
+    try {
+      localStorage.setItem('kaaf_loyalty', JSON.stringify(loyaltyAccount));
+    } catch (e) {}
   }, [loyaltyAccount]);
 
   useEffect(() => {
-    localStorage.setItem('kaaf_orders', JSON.stringify(orders));
+    try {
+      localStorage.setItem('kaaf_orders', JSON.stringify(orders));
+    } catch (e) {}
   }, [orders]);
 
   useEffect(() => {
-    localStorage.setItem('kaaf_branch', currentBranch);
+    try {
+      localStorage.setItem('kaaf_branch', currentBranch);
+    } catch (e) {}
   }, [currentBranch]);
 
   // Cart Handlers
   const handleAddToCart = (product: Product) => {
+    if (!product || !product.id) return;
     setCartItems(prev => {
-      const existing = prev.find(item => item.product.id === product.id);
+      const existing = prev.find(item => item?.product?.id === product.id);
       if (existing) {
         return prev.map(item =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+          item?.product?.id === product.id
+            ? { ...item, quantity: (item.quantity || 1) + 1 }
             : item
         );
       }
@@ -305,7 +354,7 @@ export default function App() {
   };
 
   const cartSubtotal = cartItems.reduce(
-    (acc, item) => acc + item.product.discountedPrice * item.quantity,
+    (acc, item) => acc + ((item?.product?.discountedPrice || 0) * (item?.quantity || 1)),
     0
   );
 

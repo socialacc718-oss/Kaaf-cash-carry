@@ -25,11 +25,11 @@ export const PamphletDealsSection: React.FC<PamphletDealsSectionProps> = ({
   onAddToCart,
   onUpdateQuantity
 }) => {
-  const pamphletProducts = products.filter(p => p.isPamphletDeal);
+  const pamphletProducts = (products || []).filter(p => p && p.isPamphletDeal);
 
   const getItemQuantity = (productId: string): number => {
-    const item = cartItems.find(i => i.product.id === productId);
-    return item ? item.quantity : 0;
+    const item = (cartItems || []).find(i => i?.product?.id === productId);
+    return item ? (item.quantity || 0) : 0;
   };
 
   return (

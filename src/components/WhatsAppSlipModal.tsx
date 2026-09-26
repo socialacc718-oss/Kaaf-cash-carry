@@ -164,22 +164,29 @@ export const WhatsAppSlipModal: React.FC<WhatsAppSlipModalProps> = ({
               </div>
 
               <div className="divide-y divide-slate-100 py-1">
-                {order.items.map((item, idx) => (
-                  <div key={idx} className="grid grid-cols-12 py-1.5 items-start">
-                    <div className="col-span-6">
-                      <div className="font-bold text-slate-800 line-clamp-1">{item.product.name}</div>
-                      <div className="text-[10px] text-slate-400 font-sans">
-                        {item.product.brand} • {item.product.unit}
+                {(order.items || []).map((item, idx) => {
+                  const price = item?.product?.discountedPrice || 0;
+                  const qty = item?.quantity || 1;
+                  const name = item?.product?.name || 'Item';
+                  const brand = item?.product?.brand || 'KAAF';
+                  const unit = item?.product?.unit || '1 Pack';
+                  return (
+                    <div key={idx} className="grid grid-cols-12 py-1.5 items-start">
+                      <div className="col-span-6">
+                        <div className="font-bold text-slate-800 line-clamp-1">{name}</div>
+                        <div className="text-[10px] text-slate-400 font-sans">
+                          {brand} • {unit}
+                        </div>
+                      </div>
+                      <div className="col-span-2 text-center font-bold">
+                        {qty}
+                      </div>
+                      <div className="col-span-4 text-right font-bold">
+                        Rs. {(price * qty).toLocaleString()}
                       </div>
                     </div>
-                    <div className="col-span-2 text-center font-bold">
-                      {item.quantity}
-                    </div>
-                    <div className="col-span-4 text-right font-bold">
-                      Rs. {(item.product.discountedPrice * item.quantity).toLocaleString()}
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 

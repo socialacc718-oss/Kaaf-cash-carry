@@ -2,6 +2,7 @@ import { CartItem, Order, Branch, LoyaltyTier } from '../types';
 import { BRANCH_CONTACTS, LOYALTY_TIERS } from '../data/products';
 
 export const formatPKR = (amount: number): string => {
+  if (typeof amount !== 'number' || isNaN(amount)) return 'Rs. 0';
   return `Rs. ${Math.round(amount).toLocaleString('en-PK')}`;
 };
 
@@ -17,21 +18,23 @@ export const generateQurandaziTicket = (orderId: string, index: number): string 
 };
 
 export const calculateQurandaziTickets = (subtotal: number, tierMultiplier: number = 1): number => {
-  if (subtotal < 5000) return 0;
+  if (!subtotal || subtotal < 5000) return 0;
   const baseTickets = Math.floor(subtotal / 5000);
-  return Math.round(baseTickets * tierMultiplier);
+  return Math.round(baseTickets * (tierMultiplier || 1));
 };
 
 export const getTierFromPoints = (points: number): LoyaltyTier => {
-  if (points >= 1000) return 'Platinum';
-  if (points >= 500) return 'Gold';
-  if (points >= 200) return 'Silver';
+  const p = points || 0;
+  if (p >= 1000) return 'Platinum';
+  if (p >= 500) return 'Gold';
+  if (p >= 200) return 'Silver';
   return 'Bronze';
 };
 
-export const calculatePointsEarned = (amount: number, tier: LoyaltyTier): number => {
-  const multiplier = LOYALTY_TIERS[tier]?.multiplier || 1.0;
-  return Math.floor((amount / 100) * multiplier);
+export const calculatePointsEarned = (amount: number, tier?: LoyaltyTier): number => {
+  const safeTier = tier && LOYALTY_TIERS[tier] ? tier : 'Bronze';
+  const multiplier = LOYALTY_TIERS[safeTier]?.multiplier || 1.0;
+  return Math.floor(((amount || 0) / 100) * multiplier);
 };
 
 export const buildWhatsAppOrderText = (order: Order): string => {
@@ -53,22 +56,27 @@ export const buildWhatsAppOrderText = (order: Order): string => {
   text += `────────────────────\n`;
   text += `🛍️ *Order Items List:*\n`;
 
-  order.items.forEach((item, idx) => {
-    const itemTotal = item.product.discountedPrice * item.quantity;
-    text += `${idx + 1}. *${item.product.name}* [${item.product.brand}]\n`;
-    text += `   ${item.quantity} x Rs. ${item.product.discountedPrice.toLocaleString()} = *Rs. ${itemTotal.toLocaleString()}* (${item.product.unit})\n`;
+  (order.items || []).forEach((item, idx) => {
+    const price = item?.product?.discountedPrice || 0;
+    const qty = item?.quantity || 1;
+    const itemTotal = price * qty;
+    const name = item?.product?.name || 'Grocery Item';
+    const brand = item?.product?.brand || 'KAAF';
+    const unit = item?.product?.unit || '1 Pack';
+    text += `${idx + 1}. *${name}* [${brand}]\n`;
+    text += `   ${qty} x Rs. ${price.toLocaleString()} = *Rs. ${itemTotal.toLocaleString()}* (${unit})\n`;
   });
 
   text += `────────────────────\n`;
-  text += `💰 *Subtotal:* Rs. ${order.subtotal.toLocaleString()}\n`;
+  text += `💰 *Subtotal:* Rs. ${(order.subtotal || 0).toLocaleString()}\n`;
   text += `🚚 *Delivery Fee:* ${order.deliveryFee === 0 ? 'FREE HOME DELIVERY' : `Rs. ${order.deliveryFee}`}\n`;
   
   if (order.loyaltyDiscount && order.loyaltyDiscount > 0) {
     text += `⭐ *Loyalty Points Redeemed:* -Rs. ${order.loyaltyDiscount.toLocaleString()} (${order.pointsRedeemed || 0} pts)\n`;
   }
 
-  text += `🎉 *Total Pamphlet Savings:* Rs. ${order.totalSavings.toLocaleString()}\n`;
-  text += `💵 *NET PAYABLE (Grand Total):* *Rs. ${order.grandTotal.toLocaleString()}*\n`;
+  text += `🎉 *Total Pamphlet Savings:* Rs. ${(order.totalSavings || 0).toLocaleString()}\n`;
+  text += `💵 *NET PAYABLE (Grand Total):* *Rs. ${(order.grandTotal || 0).toLocaleString()}*\n`;
   text += `────────────────────\n`;
 
   if (order.qurandaziTickets && order.qurandaziTickets.length > 0) {

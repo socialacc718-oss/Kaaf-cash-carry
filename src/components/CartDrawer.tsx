@@ -40,21 +40,22 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const totalItemsCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-  const subtotal = cartItems.reduce((acc, item) => acc + (item.product.discountedPrice * item.quantity), 0);
-  const originalSubtotal = cartItems.reduce((acc, item) => acc + (item.product.originalPrice * item.quantity), 0);
+  const totalItemsCount = (cartItems || []).reduce((acc, item) => acc + (item?.quantity || 0), 0);
+  const subtotal = (cartItems || []).reduce((acc, item) => acc + ((item?.product?.discountedPrice || 0) * (item?.quantity || 1)), 0);
+  const originalSubtotal = (cartItems || []).reduce((acc, item) => acc + ((item?.product?.originalPrice || item?.product?.discountedPrice || 0) * (item?.quantity || 1)), 0);
   const totalSavings = originalSubtotal - subtotal;
   
+  const safeTier = loyaltyAccount?.tier || 'Silver';
   const qurandaziThreshold = 5000;
   const isQualified = subtotal >= qurandaziThreshold;
   const remainingForTicket = Math.max(0, qurandaziThreshold - subtotal);
   const baseTickets = Math.floor(subtotal / qurandaziThreshold);
-  const tierMultiplier = loyaltyAccount.tier === 'Platinum' ? 3 : loyaltyAccount.tier === 'Gold' ? 2 : 1;
+  const tierMultiplier = safeTier === 'Platinum' ? 3 : safeTier === 'Gold' ? 2 : 1;
   const earnedTickets = baseTickets * tierMultiplier;
   const progressPercent = Math.min(100, (subtotal / qurandaziThreshold) * 100);
 
   // Points customer will earn from this purchase
-  const pointsToEarn = calculatePointsEarned(subtotal, loyaltyAccount.tier);
+  const pointsToEarn = calculatePointsEarned(subtotal, safeTier);
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6">
@@ -125,24 +126,27 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
                 <div className="divide-y divide-slate-100 max-h-[50vh] overflow-y-auto pr-1">
                   {cartItems.map((item) => {
-                    const itemTotal = item.product.discountedPrice * item.quantity;
-                    const itemSavings = (item.product.originalPrice - item.product.discountedPrice) * item.quantity;
+                    const price = item?.product?.discountedPrice || 0;
+                    const origPrice = item?.product?.originalPrice || price;
+                    const qty = item?.quantity || 1;
+                    const itemTotal = price * qty;
+                    const itemSavings = (origPrice - price) * qty;
 
                     return (
-                      <div key={item.product.id} className="py-3.5 flex gap-3.5 items-center">
+                      <div key={item?.product?.id || Math.random()} className="py-3.5 flex gap-3.5 items-center">
                         <img
-                          src={item.product.image}
-                          alt={item.product.name}
+                          src={item?.product?.image || ''}
+                          alt={item?.product?.name || 'Product'}
                           className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover bg-slate-100 border border-slate-200 shrink-0"
                         />
 
                         <div className="flex-1 min-w-0">
-                          <span className="text-[10px] text-slate-400 font-bold uppercase block">{item.product.brand}</span>
+                          <span className="text-[10px] text-slate-400 font-bold uppercase block">{item?.product?.brand || 'KAAF'}</span>
                           <h4 className="font-extrabold text-slate-900 text-xs sm:text-sm truncate">
-                            {item.product.name}
+                            {item?.product?.name || 'Item'}
                           </h4>
                           <p className="text-[11px] text-slate-500 truncate">
-                            {item.product.unit} • Rs. {item.product.discountedPrice.toLocaleString()} each
+                            {item?.product?.unit || '1 Pack'} • Rs. {price.toLocaleString()} each
                           </p>
 
                           <div className="flex items-center gap-2 mt-1">
@@ -161,16 +165,16 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                         <div className="flex flex-col items-end gap-2 shrink-0">
                           <div className="flex items-center bg-white rounded-xl p-0.5 border border-slate-200 shadow-2xs">
                             <button
-                              onClick={() => onUpdateQuantity(item.product.id, item.quantity - 1)}
+                              onClick={() => item?.product?.id && onUpdateQuantity(item.product.id, qty - 1)}
                               className="w-7 h-7 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center hover:bg-slate-200 font-bold"
                             >
                               <Minus className="w-3.5 h-3.5" />
                             </button>
                             <span className="w-7 text-center text-xs font-black text-slate-900">
-                              {item.quantity}
+                              {qty}
                             </span>
                             <button
-                              onClick={() => onUpdateQuantity(item.product.id, item.quantity + 1)}
+                              onClick={() => item?.product?.id && onUpdateQuantity(item.product.id, qty + 1)}
                               className="w-7 h-7 rounded-lg bg-emerald-700 text-white flex items-center justify-center hover:bg-emerald-800 font-bold"
                             >
                               <Plus className="w-3.5 h-3.5" />
